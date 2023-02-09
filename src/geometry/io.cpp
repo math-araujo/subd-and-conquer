@@ -71,7 +71,7 @@ std::vector<IndexedMesh> read_wavefront_file(const std::filesystem::path& filepa
             index_offset += verts_per_face;
         }
 
-        indexed_meshes.emplace_back(std::move(positions), std::move(faces_indices));
+        indexed_meshes.emplace_back(std::move(faces_indices), std::move(positions));
     }
 
     return indexed_meshes;

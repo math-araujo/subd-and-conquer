@@ -4,9 +4,10 @@ add_subdirectory(gl)
 
 add_subdirectory(geometry)
 
-add_executable(main 
+add_executable(main
     main.cpp
     main_application.hpp main_application.cpp
+    control_mesh.hpp control_mesh.cpp
 )
 target_compile_features(main PRIVATE cxx_std_20)
 target_link_libraries(main PRIVATE gl geometry)
