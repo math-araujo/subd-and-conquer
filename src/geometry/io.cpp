@@ -55,7 +55,7 @@ std::vector<IndexedMesh> read_wavefront_file(const std::filesystem::path& filepa
         }
 
         int index_offset{0};
-        using FaceIndices = std::vector<std::uint32_t>;
+        using FaceIndices = std::vector<std::size_t>;
         std::vector<FaceIndices> faces_indices;
         faces_indices.reserve(shape.mesh.num_face_vertices.size());
         for (const std::size_t verts_per_face : shape.mesh.num_face_vertices)

@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.25)
 project(geometry LANGUAGES CXX)
 
 add_library(geometry STATIC
-    indexed_mesh.hpp
+    indexed_mesh.hpp indexed_mesh.cpp
     io.hpp io.cpp
 )
 
