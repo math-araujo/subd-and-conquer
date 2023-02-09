@@ -4,6 +4,7 @@
 #include <memory>
 #include <string_view>
 
+#include "control_mesh.hpp"
 #include "gl/application.hpp"
 #include "gl/mesh.hpp"
 #include "gl/shader.hpp"
@@ -27,6 +28,7 @@ public:
 private:
     std::unique_ptr<gl::ShaderProgram> flat_color_shader_{};
     std::unique_ptr<gl::IndexedMesh> cube_{};
+    std::unique_ptr<app::ControlMesh> control_mesh_{};
 };
 
 } // namespace app

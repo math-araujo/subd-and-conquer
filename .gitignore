@@ -33,3 +33,4 @@
 
 # Additional ignores
 imgui.ini
+.vscode/
