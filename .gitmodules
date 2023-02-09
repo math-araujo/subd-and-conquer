@@ -1,0 +1,6 @@
+[submodule "vcpkg"]
+	path = vcpkg
+	url = https://github.com/microsoft/vcpkg.git
+[submodule "geometry-central"]
+	path = geometry-central
+	url = https://github.com/nmwsharp/geometry-central.git
