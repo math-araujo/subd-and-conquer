@@ -10,7 +10,6 @@
 namespace gl
 {
 
-// std::unordered_map<std::string, Mesh> read_triangle_mesh(const std::string& filename, bool verbose = false);
 std::unordered_map<std::string, Model> read_triangle_mesh(const std::string& filename, bool verbose = false);
 
 } // namespace gl

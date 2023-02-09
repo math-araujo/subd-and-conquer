@@ -12,7 +12,6 @@
 namespace gl
 {
 
-// std::unordered_map<std::string, Mesh> read_triangle_mesh(const std::string& filename, bool verbose)
 std::unordered_map<std::string, Model> read_triangle_mesh(const std::string& filename, bool verbose)
 {
     // Cannot concatenate std::string_view, must use std::string

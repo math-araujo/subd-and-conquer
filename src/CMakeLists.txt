@@ -1,12 +1,15 @@
 # The subdirectory gl contains a small library abstracting
 # OpenGL calls for this project
 add_subdirectory(gl)
+
+add_subdirectory(geometry)
+
 add_executable(main 
     main.cpp
     main_application.hpp main_application.cpp
 )
 target_compile_features(main PRIVATE cxx_std_20)
-target_link_libraries(main PRIVATE gl)
+target_link_libraries(main PRIVATE gl geometry)
 set_target_properties(main PROPERTIES CXX_EXTENSIONS OFF)
 
 add_custom_command(TARGET main POST_BUILD
