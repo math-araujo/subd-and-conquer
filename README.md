@@ -7,9 +7,7 @@ TODO
 
 ## Gallery
 
-* Custom made Half-edge Data Structure
-
-* Loading of general polygon mesh (i.e. mesh with n-gons) using `tinyobjloader`.
+TODO
 
 ## Build
 

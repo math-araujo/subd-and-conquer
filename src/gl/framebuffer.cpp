@@ -1,7 +1,7 @@
 #include "framebuffer.hpp"
 
 #include <cassert>
-#include <exception>
+#include <stdexcept>
 #include <iostream>
 
 namespace gl

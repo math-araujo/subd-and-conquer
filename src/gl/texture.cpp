@@ -5,7 +5,7 @@
 
 #include <algorithm>
 #include <cassert>
-#include <exception>
+#include <stdexcept>
 #include <glm/glm.hpp>
 
 namespace gl

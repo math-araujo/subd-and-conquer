@@ -24,7 +24,7 @@ Mesh::Mesh(std::vector<float> vertices_data, std::vector<int> attributes_sizes) 
 
     // Specify vertex format (default: position and texture coordinates)
     int offset{0};
-    for (std::size_t index = 0; index < attributes_sizes_.size(); ++index)
+    for (GLuint index = 0; index < attributes_sizes_.size(); ++index)
     {
         glVertexAttribPointer(index, attributes_sizes_[index], GL_FLOAT, GL_FALSE, stride_ * sizeof(float),
                               reinterpret_cast<void*>(offset * sizeof(float)));
@@ -107,7 +107,7 @@ IndexedMesh::IndexedMesh(std::vector<float> vertices_data, std::vector<std::uint
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(std::uint32_t), indices.data(), GL_STATIC_DRAW);
 
     int offset{0};
-    for (std::size_t index = 0; index < attributes_sizes_.size(); ++index)
+    for (GLuint index = 0; index < attributes_sizes_.size(); ++index)
     {
         glEnableVertexAttribArray(index);
         glVertexAttribPointer(index, attributes_sizes_[index], GL_FLOAT, GL_FALSE, stride_ * sizeof(float),

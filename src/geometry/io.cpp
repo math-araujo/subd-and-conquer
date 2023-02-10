@@ -1,5 +1,5 @@
 #include "io.hpp"
-#include <exception>
+#include <stdexcept>
 #include <iostream>
 #include <tiny_obj_loader.h>
 

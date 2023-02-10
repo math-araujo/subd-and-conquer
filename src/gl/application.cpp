@@ -11,14 +11,13 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
-#include <exception>
+#include <stdexcept>
 #include <iostream>
 #include <string>
 
 #include "framebuffer.hpp"
 #include "mesh.hpp"
 #include "shader.hpp"
-#include "skybox.hpp"
 #include "texture.hpp"
 
 namespace gl
@@ -186,7 +185,7 @@ void Application::set_mouse_click(bool mouse_click)
 void scroll_callback(GLFWwindow* window, double /*x_offset*/, double y_offset)
 {
     Application* application = static_cast<Application*>(glfwGetWindowUserPointer(window));
-    application->camera().process_mouse_scroll(y_offset);
+    application->camera().process_mouse_scroll(static_cast<float>(y_offset));
 }
 
 void Application::initialize_imgui()

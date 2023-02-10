@@ -1,4 +1,4 @@
-#include <exception>
+#include <stdexcept>
 #include <iostream>
 
 #include "main_application.hpp"

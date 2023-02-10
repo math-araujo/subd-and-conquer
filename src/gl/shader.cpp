@@ -2,7 +2,7 @@
 
 #include <array>
 #include <cassert>
-#include <exception>
+#include <stdexcept>
 #include <fstream>
 #include <iostream>
 #include <regex>
@@ -183,16 +183,16 @@ void ShaderProgram::retrieve_uniforms()
     std::vector<char> uniform_name(256);
     for (int uniform = 0; uniform < number_of_uniforms; ++uniform)
     {
-        glGetProgramResourceiv(program_id_, GL_UNIFORM, uniform, properties.size(), properties.data(), results.size(),
+        glGetProgramResourceiv(program_id_, GL_UNIFORM, uniform, static_cast<GLsizei>(properties.size()), properties.data(), static_cast<GLsizei>(results.size()),
                                nullptr, results.data());
 
         // Get resources (uniform name and uniform location)
         uniform_name.resize(results[0]);
-        glGetProgramResourceName(program_id_, GL_UNIFORM, uniform, uniform_name.size(), nullptr, uniform_name.data());
+        glGetProgramResourceName(program_id_, GL_UNIFORM, uniform, static_cast<GLsizei>(uniform_name.size()), nullptr, uniform_name.data());
         std::uint32_t uniform_location = results.back();
 
         // The name returned contains a null-terminator, so it's necessary to read uniform_name.size() - 1 characters
-        uniform_locations.emplace(std::string{uniform_name.data(), uniform_name.size() - 1}, uniform_location);
+        uniform_locations.emplace(std::string{uniform_name.data(), static_cast<std::uint32_t>(uniform_name.size() - 1)}, uniform_location);
     }
 }
 
@@ -232,7 +232,7 @@ void ShaderProgram::set_int_uniform(const std::string& uniform_name, int value)
 void ShaderProgram::set_int_array_uniform(const std::string& uniform_name, const int* value, std::size_t count)
 {
     assert(uniform_locations.contains(uniform_name));
-    glProgramUniform1iv(program_id_, uniform_locations[uniform_name], count, value);
+    glProgramUniform1iv(program_id_, uniform_locations[uniform_name], static_cast<GLsizei>(count), value);
 }
 
 void ShaderProgram::set_float_uniform(const std::string& uniform_name, float value)
@@ -244,7 +244,7 @@ void ShaderProgram::set_float_uniform(const std::string& uniform_name, float val
 void ShaderProgram::set_float_array_uniform(const std::string& uniform_name, const float* value, std::size_t count)
 {
     assert(uniform_locations.contains(uniform_name));
-    glProgramUniform1fv(program_id_, uniform_locations[uniform_name], count, value);
+    glProgramUniform1fv(program_id_, uniform_locations[uniform_name], static_cast<GLsizei>(count), value);
 }
 
 void ShaderProgram::set_vec2_uniform(const std::string& uniform_name, float x, float y)
