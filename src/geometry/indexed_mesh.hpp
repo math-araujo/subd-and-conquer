@@ -8,14 +8,6 @@
 #include <tuple>
 #include <vector>
 
-namespace geometrycentral::surface
-{
-
-class ManifoldSurfaceMesh;
-class VertexPositionGeometry;
-
-} // namespace geometrycentral::surface
-
 namespace geometry
 {
 
