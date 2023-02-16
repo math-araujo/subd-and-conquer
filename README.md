@@ -1,9 +1,14 @@
 # SubD and Conquer
 
+(WIP) Study and implementation of techniques related to subdivision surfaces. Currently implemented Catmull-Clark subdivision surface. Now working on table driven subdivision schemes.
+
+| | |
+| :---: | :---: |
+| ![Scene](docs/images/wip_polyscope.png?raw=True) |  ![Scene](docs/images/wip_polyscope2.png?raw=True) |
 
 ## Features
 
-TODO
+* Catmull-Clark Subdivision Surfaces
 
 ## Gallery
 
