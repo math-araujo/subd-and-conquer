@@ -3,6 +3,7 @@ project(geometry LANGUAGES CXX)
 
 add_library(geometry STATIC
     indexed_mesh.hpp indexed_mesh.cpp
+    subdivision.hpp subdivision.cpp
     io.hpp io.cpp
 )
 
