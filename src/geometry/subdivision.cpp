@@ -84,11 +84,24 @@ MeshAndGeometry catmull_clark_subdivision(std::unique_ptr<geometrycentral::surfa
     for (geometrycentral::surface::Face face : mesh->faces())
     {
         const std::size_t new_face_index{old_face_new_point_index[face]};
+        /*
+        To construct the new faces (quadrangulate the original face), for each vertex v on face f,
+        we need access to both the outcoming halfedge of v (i.e., the halfedge with v as tail) and
+        the incoming halfedge incoming on v (i.e., the halfedge with v as tip).
+        The following loop find and stores the incoming halfedges of each vertex of a face for
+        faster access on the subsequent loop (the one that assemble the new face's indices).
+        */
+        std::unordered_map<geometrycentral::surface::Vertex, geometrycentral::surface::Edge> incident_edge;
+        for (geometrycentral::surface::Halfedge halfedge : face.adjacentHalfedges())
+        {
+            incident_edge.emplace(halfedge.tipVertex(), halfedge.edge());
+        }
+
         for (geometrycentral::surface::Halfedge halfedge : face.adjacentHalfedges())
         {
             new_faces_indices.emplace_back(std::vector<std::size_t>{
                 old_vertex_new_point_index[halfedge.vertex()], old_edge_new_point_index[halfedge.edge()],
-                new_face_index, old_edge_new_point_index[halfedge.next().next().next().edge()]});
+                new_face_index, old_edge_new_point_index[incident_edge[halfedge.vertex()]]});
         }
     }
 
