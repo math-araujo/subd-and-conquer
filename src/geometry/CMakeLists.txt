@@ -4,6 +4,7 @@ project(geometry LANGUAGES CXX)
 add_library(geometry STATIC
     indexed_mesh.hpp indexed_mesh.cpp
     subdivision.hpp subdivision.cpp
+    halfedge.hpp halfedge.cpp
     io.hpp io.cpp
 )
 

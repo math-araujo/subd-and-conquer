@@ -5,9 +5,11 @@
 namespace geometry::subdivision
 {
 
-MeshAndGeometry standard_catmull_clark(std::unique_ptr<geometrycentral::surface::ManifoldSurfaceMesh> mesh,
-                                       std::unique_ptr<geometrycentral::surface::VertexPositionGeometry> geometry)
+Halfedge standard_catmull_clark(const Halfedge& halfedge)
 {
+    geometrycentral::surface::ManifoldSurfaceMesh* mesh{halfedge.mesh.get()};
+    geometrycentral::surface::VertexPositionGeometry* geometry{halfedge.geometry.get()};
+
     std::vector<geometrycentral::Vector3> new_points;
     new_points.reserve(mesh->nFaces() + mesh->nEdges() + mesh->nVertices());
     // Maps the face f to the index of it's corresponding new point in the new_points vector
@@ -60,6 +62,7 @@ MeshAndGeometry standard_catmull_clark(std::unique_ptr<geometrycentral::surface:
             throw std::runtime_error{"Runtime error - Standard Catmull-Clark does not support meshes with boundaries"};
         }
 
+        // Computes the variable "Q" of the paper.
         auto avg_new_face_points{geometrycentral::Vector3::zero()};
         std::size_t num_faces{0};
         for (geometrycentral::surface::Face face : vertex.adjacentFaces())
@@ -70,6 +73,7 @@ MeshAndGeometry standard_catmull_clark(std::unique_ptr<geometrycentral::surface:
         avg_new_face_points /= num_faces;
         ++vertex_id;
 
+        // Computes the variable "R" of the paper.
         auto avg_old_edge_midpoints{geometrycentral::Vector3::zero()};
         std::size_t num_edges{0};
         for (geometrycentral::surface::Edge edge : vertex.adjacentEdges())
@@ -83,8 +87,11 @@ MeshAndGeometry standard_catmull_clark(std::unique_ptr<geometrycentral::surface:
             throw std::runtime_error{"Runtime Error - num_faces != num_edges"};
         }
 
+        // The old vertex point is the variable "S" of the paper.
         const auto& current_vertex{geometry->vertexPositions[vertex]};
         old_vertex_new_point_index.emplace(vertex, new_points.size());
+
+        // Implements the formula on the paper: (Q / n) + (2 * R / n) + (S * (n - 3) / n)
         new_points.emplace_back((avg_new_face_points / num_faces) + (2 * avg_old_edge_midpoints / num_faces) +
                                 ((static_cast<double>(num_faces - 3) / (num_faces)) * current_vertex));
     }
@@ -115,7 +122,9 @@ MeshAndGeometry standard_catmull_clark(std::unique_ptr<geometrycentral::surface:
         }
     }
 
-    return geometrycentral::surface::makeManifoldSurfaceMeshAndGeometry(new_faces_indices, new_points);
+    auto [subd_mesh, subd_geometry] =
+        geometrycentral::surface::makeManifoldSurfaceMeshAndGeometry(new_faces_indices, new_points);
+    return Halfedge{.mesh = std::move(subd_mesh), .geometry = std::move(subd_geometry)};
 }
 
 } // namespace geometry::subdivision

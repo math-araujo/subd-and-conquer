@@ -5,9 +5,7 @@
 namespace geometry
 {
 
-std::tuple<std::unique_ptr<geometrycentral::surface::ManifoldSurfaceMesh>,
-           std::unique_ptr<geometrycentral::surface::VertexPositionGeometry>>
-to_halfedge(const IndexedMesh& indexed_mesh)
+Halfedge to_halfedge(const IndexedMesh& indexed_mesh)
 {
     using namespace geometrycentral;
     using namespace geometrycentral::surface;
@@ -19,7 +17,8 @@ to_halfedge(const IndexedMesh& indexed_mesh)
     {
         gc_positions.emplace_back(Vector3{position.x, position.y, position.z});
     }
-    return makeManifoldSurfaceMeshAndGeometry(indexed_mesh.faces_indices, gc_positions);
+    auto [mesh, geometry] = makeManifoldSurfaceMeshAndGeometry(indexed_mesh.faces_indices, gc_positions);
+    return Halfedge{.mesh = std::move(mesh), .geometry = std::move(geometry)};
 }
 
 } // namespace geometry

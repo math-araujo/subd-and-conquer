@@ -1,8 +1,7 @@
 #ifndef INDEXED_MESH_HPP
 #define INDEXED_MESH_HPP
 
-#include "geometrycentral/surface/manifold_surface_mesh.h"
-#include "geometrycentral/surface/vertex_position_geometry.h"
+#include "halfedge.hpp"
 #include <glm/vec3.hpp>
 #include <memory>
 #include <tuple>
@@ -26,9 +25,7 @@ struct IndexedMesh
     }
 };
 
-std::tuple<std::unique_ptr<geometrycentral::surface::ManifoldSurfaceMesh>,
-           std::unique_ptr<geometrycentral::surface::VertexPositionGeometry>>
-to_halfedge(const IndexedMesh& indexed_mesh);
+Halfedge to_halfedge(const IndexedMesh& indexed_mesh);
 
 } // namespace geometry
 
