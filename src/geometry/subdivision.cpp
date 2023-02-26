@@ -2,11 +2,11 @@
 #include "geometrycentral/surface/surface_mesh_factories.h"
 #include "geometrycentral/utilities/vector3.h"
 
-namespace geometry
+namespace geometry::subdivision
 {
 
-MeshAndGeometry catmull_clark_subdivision(std::unique_ptr<geometrycentral::surface::ManifoldSurfaceMesh> mesh,
-                                          std::unique_ptr<geometrycentral::surface::VertexPositionGeometry> geometry)
+MeshAndGeometry standard_catmull_clark(std::unique_ptr<geometrycentral::surface::ManifoldSurfaceMesh> mesh,
+                                       std::unique_ptr<geometrycentral::surface::VertexPositionGeometry> geometry)
 {
     std::vector<geometrycentral::Vector3> new_points;
     new_points.reserve(mesh->nFaces() + mesh->nEdges() + mesh->nVertices());
@@ -33,6 +33,10 @@ MeshAndGeometry catmull_clark_subdivision(std::unique_ptr<geometrycentral::surfa
     std::unordered_map<geometrycentral::surface::Edge, geometrycentral::Vector3> old_edge_midpoints;
     for (std::size_t edge_id = 0; geometrycentral::surface::Edge edge : mesh->edges())
     {
+        if (edge.isBoundary())
+        {
+            throw std::runtime_error{"Runtime error - Standard Catmull-Clark does not support meshes with boundaries"};
+        }
         const auto endpoints_sum{geometry->vertexPositions[edge.secondVertex()] +
                                  geometry->vertexPositions[edge.firstVertex()]};
         old_edge_midpoints.emplace(edge, endpoints_sum / 2);
@@ -51,6 +55,11 @@ MeshAndGeometry catmull_clark_subdivision(std::unique_ptr<geometrycentral::surfa
     std::unordered_map<geometrycentral::surface::Vertex, std::size_t> old_vertex_new_point_index;
     for (std::size_t vertex_id = 0; geometrycentral::surface::Vertex vertex : mesh->vertices())
     {
+        if (vertex.isBoundary())
+        {
+            throw std::runtime_error{"Runtime error - Standard Catmull-Clark does not support meshes with boundaries"};
+        }
+
         auto avg_new_face_points{geometrycentral::Vector3::zero()};
         std::size_t num_faces{0};
         for (geometrycentral::surface::Face face : vertex.adjacentFaces())
@@ -71,7 +80,7 @@ MeshAndGeometry catmull_clark_subdivision(std::unique_ptr<geometrycentral::surfa
         avg_old_edge_midpoints /= num_edges;
         if (num_faces != num_edges)
         {
-            throw std::runtime_error{"ERROR! num_faces != num_edges"};
+            throw std::runtime_error{"Runtime Error - num_faces != num_edges"};
         }
 
         const auto& current_vertex{geometry->vertexPositions[vertex]};
@@ -80,6 +89,7 @@ MeshAndGeometry catmull_clark_subdivision(std::unique_ptr<geometrycentral::surfa
                                 ((static_cast<double>(num_faces - 3) / (num_faces)) * current_vertex));
     }
 
+    // Quadrangulate faces
     std::vector<std::vector<std::size_t>> new_faces_indices;
     for (geometrycentral::surface::Face face : mesh->faces())
     {
@@ -108,4 +118,4 @@ MeshAndGeometry catmull_clark_subdivision(std::unique_ptr<geometrycentral::surfa
     return geometrycentral::surface::makeManifoldSurfaceMeshAndGeometry(new_faces_indices, new_points);
 }
 
-} // namespace geometry
+} // namespace geometry::subdivision
