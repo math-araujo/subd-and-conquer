@@ -1,6 +1,6 @@
 # SubD and Conquer
 
-(WIP) Study and implementation of subdivision techniques. Currently implemented Catmull-Clark subdivision surface for arbitrary topology meshes. Now working on table driven subdivision schemes.
+(WIP) Study and implementation of subdivision techniques. Currently implemented Catmull-Clark subdivision surface for 2-manifold meshes with arbitrary topology, with or without boundaries and holes. Now working on table driven subdivision schemes.
 
 In parallel to table driven subdivision implementation, I'm working on some rendering features for the OpenGL side. Currently, I'm working on the triangulation of the quads (since after one Catmull-Clark subdivision step, all the triangles and n-gons will be quadrangulated) to send the data to the GPU as triangles.
 
@@ -14,11 +14,26 @@ While I work on my custom OpenGL renderer for this task, below are presented som
 
 ## Features
 
-* Catmull-Clark Subdivision Surface of arbitrary topology meshes.
+* Standard Catmull-Clark subdivision of 2-manifold closed meshes with arbitrary topology [1].
+
+* Catmull-Clark subdivision with DeRose modified rules for boundary edges and vertices [2, 3].
+
+* Loading of general polygon meshes using `tinyobjloader`
+
+* _More things soon_ 
 
 ## Gallery
 
 TODO
+
+## References
+
+[1]: [Catmull, E., & Clark, J. (1978). Recursively generated B-spline surfaces on arbitrary topological meshes. Computer-aided design, 10(6), 350-355.](https://people.eecs.berkeley.edu/~sequin/CS284/PAPERS/CatmullClark_SDSurf.pdf)
+
+[2]: [DeRose, T., Kass, M., & Truong, T. (1998, July). Subdivision surfaces in character animation. In Proceedings of the 25th annual conference on Computer graphics and interactive techniques (pp. 85-94)](https://graphics.pixar.com/library/Geri/paper.pdf).
+
+[3]: [De Goes, F., Desbrun, M., Meyer, M., & DeRose, T. (2016). Subdivision exterior calculus for geometry processing. ACM Transactions on Graphics (TOG), 35(4), 1-11.](https://drive.google.com/file/d/1ej4MtNqYzTsJ5HqtZzk8pfcVIMTi1lbW/view) The Subdivision Rules are provided in the [supplemental materials](https://graphics.pixar.com/library/SEC/supplemental.pdf).
+
 
 ## Build
 
@@ -70,7 +85,6 @@ Usually I don't use git submodules and use CMake FetchContent module, even for d
 * ESC Key - Exit application
 
 * Left Mouse Button - Hold and move mouse to look-around when in locked FPS mode
-
 
 ## LICENSE
 
